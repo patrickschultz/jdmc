@@ -6,7 +6,6 @@ LIB=org.sat4j.core.jar
 
 APP_DIR=usr/bin
 LIB_DIR=usr/lib
-DEST_DIR=sat4j
 
-mkdir -p $STAGE_DIR/$LIB_DIR/$DEST_DIR
-cp $LIB $STAGE_DIR/$LIB_DIR/$DEST_DIR
+mkdir -p $STAGE_DIR/$LIB_DIR
+cp $LIB $STAGE_DIR/$LIB_DIR

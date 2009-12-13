@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jdmc-build-all" default="default" basedir=".">
+    <description>Builds all jdmc components.</description>
+
+    <property name="work.dir" value="debian"/>
+
+    <macrodef name="iterate">
+        <attribute name="target"/>
+        <sequential>
+            <subant target="@{target}">
+                <fileset dir="." includes="*/build.xml"/>
+            </subant>
+        </sequential>
+    </macrodef>
+
+    <target name="default">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <iterate target="default"/>
+    </target>
+    <target name="clean">
+        <delete dir="${work.dir}" followsymlinks="false" includeemptydirs="true"/>
+        <!-- Create the build directory structure used by compile -->
+        <iterate target="clean"/>
+    </target>
+</project>

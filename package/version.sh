@@ -6,9 +6,9 @@ if [ $LOCALVER \> 1 ] ; then
     if [ $VER != $LOCALVER ] ; then
         VER="$VER+$(($LOCALVER-$VER))"
     elif git status | grep -q "modified:" ; then
-        VER="${VER}M"
+        VER="${VER}"
     fi
-    VER="$VER $(git rev-list HEAD -n 1 | head -c 7)"
+#    VER="$VER $(git rev-list HEAD -n 1 | head -c 7)"
 else
     echo >> Version 
     VER="x"

@@ -2,11 +2,13 @@
     <description>
         Used for building the sat4j package.
     </description>
+
     <!-- set global properties for this build -->
     <property name="STAGE_DIR" location="../../debian"/>
     <property name="PROGRAM_DIR" location="../../sat4j"/>
     <property name="TOP_DIR" location="../../"/>
     <property name="RELEASE_DIR" location="../Release"/>
+    <property name="VERSION_FILE" location="../Version"/>
 
     <target name="prepare">
         <delete dir="${STAGE_DIR}"/>
@@ -17,6 +19,17 @@
         <tstamp/>
         <!-- Create the build directory structure used by compile -->
         <mkdir dir="${STAGE_DIR}"/>
+        <!-- Fix the version number -->
+        
+        <exec executable="tail" outputproperty="ver">
+            <arg value="-n1"/>
+            <arg value="${VERSION_FILE}"/>
+        </exec>
+        <exec executable="sed" osfamily="unix" newenvironment="false" dir=".">
+            <arg value="-i"/>
+            <arg value="s~Version.*~Version: ${ver}~g"/>
+            <arg value="DEBIAN/control"/>
+        </exec>
         <exec executable="cp" osfamily="unix" newenvironment="false" dir=".">
             <arg value="-r"/>
             <arg value="DEBIAN"/>

@@ -1,4 +1,4 @@
-<project name="jdmc-all" default="package-all" basedir=".">
+<project name="jdmc-package-all" default="package-all" basedir=".">
     <description>
         Builds all neccessary packages of jdmc.
     </description>
@@ -19,12 +19,14 @@
 
         <!-- Create the time stamp -->
         <tstamp/>
-        <!-- Create the build directory structure used by compile -->
         <iterate target="all"/>
 
     </target>
 
-
+    <target name="clean">
+        <delete dir="Release"/>
+        <mkdir dir="Release" />
+    </target>
 
 </project>
 

@@ -1,0 +1,14 @@
+Source: jdmc
+Section: unknown
+Priority: optional
+Maintainer: Patrick Schultz <schultz.patrick@gmail.com>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 0.1.5M 20ea8c7
+Homepage: <insert the upstream URL, if relevant>
+
+Package: jdmc
+Architecture: any
+Version: 0.1.5M 20ea8c7
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

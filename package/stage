@@ -1,0 +1,33 @@
+#!/bin/sh
+
+#
+# List the following packages in the order they should be installed
+# on the target system.
+PACKAGES="jdmc jdmc-src"
+
+#
+# This is the file the installer will use to know which packages to
+# install and what order to install them.
+package_list=Release/packages.lst
+
+get_package_info()
+{
+	d=$1
+
+	package_name=`cat $d/DEBIAN/control | grep "^Package:" | awk '{print $2}'`
+	package_version=`cat $d/DEBIAN/control | grep "^Version:" | awk '{print $2}'`
+	package_architecture=`cat $d/DEBIAN/control | grep "^Architecture:" | awk '{print $2}'`
+	package_file="${package_name}_${package_version}_${package_architecture}.deb"
+}
+
+cp /dev/null $package_list
+
+echo "Creating package list ..."
+for p in $PACKAGES
+do
+	get_package_info $p
+	if [ -f Release/$package_file ]; then
+		echo "   adding $package_file"
+		echo $package_file >> $package_list
+	fi
+done

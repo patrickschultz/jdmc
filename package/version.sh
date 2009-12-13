@@ -10,9 +10,9 @@ if [ $LOCALVER \> 1 ] ; then
     fi
     VER="$VER $(git rev-list HEAD -n 1 | head -c 7)"
 else
-    echo "#define X264_VERSION \"\"" >> config.h
+    echo >> Version 
     VER="x"
 fi
 rm -f config.git-hash
-API=`sed -e 's/.* \([1-9][0-9]*\).*/\1/' BUILD`
+API=`sed -e 's/.* \([1-9][0-9]*\).*/\1/' Build`
 echo "0.$API.$VER" >> Version

@@ -1,0 +1,7 @@
+Package: jdmc-sat4j
+Version: 0.0.0 
+Maintainer: Patrick Schultz schultz.patrick@gmail.com>
+Architecture: i386
+Depends: 
+Description: SAT4J Library used by JDMC 
+ This package contains the SAT solver used by JDMC.

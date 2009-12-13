@@ -3,7 +3,7 @@
 #
 # List the following packages in the order they should be installed
 # on the target system.
-PACKAGES="jdmc jdmc-src"
+PACKAGES="sat4j p2pmpi jdmc"
 
 #
 # This is the file the installer will use to know which packages to

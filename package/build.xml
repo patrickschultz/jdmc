@@ -1,0 +1,30 @@
+<project name="jdmc-all" default="package-all" basedir=".">
+    <description>
+        Builds all neccessary packages of jdmc.
+    </description>
+    <!-- set global properties for this build -->
+    <property name="STAGE_DIR" location="debian"/>
+
+    <macrodef name="iterate">
+        <attribute name="target"/>
+        <sequential>
+            <subant target="@{target}">
+                <fileset dir="." includes="*/build.xml"/>
+            </subant>
+        </sequential>
+    </macrodef>
+
+
+    <target name="package-all">
+
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <iterate target="all"/>
+
+    </target>
+
+
+
+</project>
+

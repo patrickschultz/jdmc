@@ -1,0 +1,49 @@
+<project name="p2pmpi" default="all" basedir=".">
+    <description>
+        Used for building the p2pmpi package.
+    </description>
+
+    <!-- set global properties for this build -->
+    <property name="STAGE_DIR" location="../../debian"/>
+    <property name="PROGRAM_DIR" location="../../p2pmpi"/>
+    <property name="TOP_DIR" location="../../"/>
+    <property name="RELEASE_DIR" location="../Release"/>
+    <property name="VERSION_FILE" location="../Version"/>
+
+    <target name="prepare">
+        <delete dir="${STAGE_DIR}"/>
+    </target>
+
+    <target name="all" depends="prepare">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${STAGE_DIR}"/>
+        <!-- Fix the version number -->
+        
+        <exec executable="tail" outputproperty="ver">
+            <arg value="-n1"/>
+            <arg value="${VERSION_FILE}"/>
+        </exec>
+        <exec executable="sed" osfamily="unix" newenvironment="false" dir=".">
+            <arg value="-i"/>
+            <arg value="s~Version.*~Version: ${ver}~g"/>
+            <arg value="DEBIAN/control"/>
+        </exec>
+        <exec executable="cp" osfamily="unix" newenvironment="false" dir=".">
+            <arg value="-r"/>
+            <arg value="DEBIAN"/>
+            <arg value="${STAGE_DIR}"/>
+        </exec>
+        <exec osfamily="unix" executable="bash" newenvironment="false" dir="${PROGRAM_DIR}">
+            <arg value="stage"/>
+        </exec>
+        <exec osfamily="unix" executable="dpkg-deb" newenvironment="false" dir="${TOP_DIR}">
+            <arg value="--build" />
+            <arg value="${STAGE_DIR}"/>
+            <arg value="${RELEASE_DIR}"/>
+        </exec>
+    </target>
+
+</project>
+

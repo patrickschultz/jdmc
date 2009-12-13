@@ -1,0 +1,7 @@
+Package: jdmc-p2pmpi
+Version: 0.1.8
+Maintainer: Patrick Schultz schultz.patrick@gmail.com>
+Architecture: i386
+Depends: 
+Description: P2PMpi Library used by JDMC 
+ This package contains the P2P Message Passing interface used by JDMC.

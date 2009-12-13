@@ -1,0 +1,27 @@
+#!/bin/sh -e
+# postinst for sat4j 
+
+action=$1
+
+case $action in
+	configure)
+		# Nothing to do
+                ldconfig
+		;;
+
+	abort-upgrade)
+		# Nothing to do
+		;;
+
+	abort-remove)
+		# Nothing to do
+		;;
+
+	*)
+		echo "Unknown action '$action' for sat4j postinst"
+		;;
+esac
+
+exit 0
+
+

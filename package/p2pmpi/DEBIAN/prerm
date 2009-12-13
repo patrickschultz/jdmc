@@ -1,0 +1,17 @@
+#!/bin/sh -e
+# prerm for sat4j
+
+action=$1
+newversion=$2
+
+case $action in
+	remove|upgrade)
+		#Nothing to do
+		;;
+
+	*)
+		echo "Unknown action '$action' for sat4j prerm"
+		;;
+esac
+
+exit 0

@@ -1,5 +1,5 @@
 Package: jdmc-sat4j
-Version: 0.1.8
+Version: 0.1.10
 Maintainer: Patrick Schultz schultz.patrick@gmail.com>
 Architecture: i386
 Depends: 

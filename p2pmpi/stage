@@ -2,15 +2,7 @@
 
 STAGE_DIR=${1:-../debian}
 
-LIBS="p2pmpi.jar log4j.jar"
-APPS="bin/* " 
-
-APP_DIR=usr/bin
-LIB_DIR=usr/lib
-
-mkdir -p $STAGE_DIR/$LIB_DIR
-cp $LIBS $STAGE_DIR/$LIB_DIR
+APP_DIR=opt/p2pmpi
 
 mkdir -p $STAGE_DIR/$APP_DIR
-cp $APPS $STAGE_DIR/$APP_DIR
-
+find -not -path "*stage*" -print0 | cpio --null -pvL $STAGE_DIR/$APP_DIR

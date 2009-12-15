@@ -1,0 +1,4 @@
+#!/bin/bash
+export P2PMPI_HOME=/opt/p2pmpi
+export PATH=$PATH:$P2PMPI_HOME/bin
+/opt/p2pmpi/bin/mpistat $@

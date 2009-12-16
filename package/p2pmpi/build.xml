@@ -14,7 +14,17 @@
         <delete dir="${STAGE_DIR}"/>
     </target>
 
-    <target name="all" depends="prepare">
+    <target name="-check-version">
+        <available file="${VERSION_FILE}" property="${VERSION_FILE}.present" />
+    </target>
+
+    <target name="-create-version" depends="-check-version" unless="${VERSION_FILE}.present">
+        <exec executable="bash" dir="..">
+            <arg value="./version.sh"/>
+        </exec>
+    </target>
+
+    <target name="all" depends="prepare, -create-version">
         <!-- Create the time stamp -->
         <tstamp/>
         <!-- Create the build directory structure used by compile -->

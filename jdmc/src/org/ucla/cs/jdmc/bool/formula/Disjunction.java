@@ -14,44 +14,55 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ucla.cs.jdmc.booleanformula;
+package org.ucla.cs.jdmc.bool.formula;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
- *
+ * Class provides support for disjunction of any length of arguments.
+ * 
  * @author Patrick Schultz <schultz.patrick@gmail.com>
  */
-public class Disjunction extends Sentence {
+public class Disjunction extends Sentence implements Iterable<Sentence> {
 
-    // the list of sentences that are ANDed
-    protected ArrayList<Sentence> sentences;
+    protected ArrayList<Sentence> sentences;    // All the sentences to be joined by disjunction
 
-    // although an AND operation is traditionally has two operands, it has
-    // been extended to allow for two or more operands
+    /**
+     * Default constructor. Accepts a variable list of sentence objects but requires a minimum of two.
+     * Constructor will check that the arguments given are not a disjunction themselves but if so, will combine
+     * them into this disjunction.
+     *
+     * @param a The first sentence to add to the disjunction.
+     * @param otherSentences A variable length argument to add to the disjunction.
+     */
     public Disjunction(Sentence a, Sentence... otherSentences) {
         sentences = new ArrayList<Sentence>();
 
-        // prevent nesting of AND operators:
-        // if the operand is of type AND, take its operands and add them
-        // to this instance of AND
+        /**
+         * Check for nested disjunction and pull into one.
+         */
         if (a instanceof Disjunction) {
             for (int i = 0; i < a.getArgCount(); i++) {
                 sentences.add(a.getArg(i));
             }
-        } // if the operand is of any other type, add it to this AND instance
+        } // Add any other elements that are not disjunctions.
         else {
             sentences.add(a);
         }
 
-        // loop through operands 2[, [3, [...]]]
+        /**
+         * We repeat the same process above but for the variable list arguments.
+         */
         for (Sentence s : otherSentences) {
-            // if the operand is an AND, add its operands to this AND instance
+            /**
+             * Check for nested disjunction and pull into one.
+             */
             if (s instanceof Disjunction) {
                 for (int i = 0; i < s.getArgCount(); i++) {
                     sentences.add(s.getArg(i));
                 }
-            } // if the operand is of any other type, add it this AND instance
+            } // Add any other elements that are not disjunctions.
             else {
                 sentences.add(s);
             }
@@ -102,5 +113,41 @@ public class Disjunction extends Sentence {
         }
 
         return str.toString();
+    }
+
+    @Override
+    public Sentence copy() {
+        Sentence copyArray[] = new Sentence[sentences.size() - 1];
+        Sentence firstCopySentence = sentences.get(0).copy();
+        for (int i = 0; i < copyArray.length; i++) {
+            Sentence sentence = sentences.get(i + 1).copy();
+            copyArray[i] = sentence;
+        }
+
+        Disjunction copy = new Disjunction(firstCopySentence, copyArray);
+        return copy;
+    }
+
+    @Override
+    public void setArg(int i, Sentence s) {
+        if (s instanceof Disjunction) {
+            sentences.remove(i);
+            for (int j = 0; j < s.getArgCount(); j++) {
+                sentences.add(i + j, s.getArg(j));
+            }
+        } else if (s == null) {
+            sentences.remove(i);
+        } else {
+            sentences.set(i, s);
+        }
+    }
+
+    /**
+     * Iterator object to allow support for fancy for loop objects.
+     *
+     * @return An iterator to the sentences in the disjunction.
+     */
+    public Iterator<Sentence> iterator() {
+        return sentences.iterator();
     }
 }

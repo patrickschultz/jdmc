@@ -14,7 +14,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ucla.cs.jdmc.booleanformula;
+package org.ucla.cs.jdmc.bool.formula;
 
 /**
  * Represents a simple literal object in a boolean formula. This object can
@@ -62,9 +62,16 @@ public class Literal extends Sentence implements Cloneable {
         return value;
     }
 
+    public String getId()
+    {
+        return id;
+    }
+
     
     /**
      * A literal has no arg counts. We always return 0.
+     *
+     * @return 0
      */
     @Override
     public int getArgCount() {
@@ -72,7 +79,9 @@ public class Literal extends Sentence implements Cloneable {
     }
 
     /**
-     * Since a literal is not an operator, we return null.
+     * Since a literal is not an boolean operator, we return null.
+     *
+     * @return null
      */
     @Override
     public Sentence getArg(int i) {
@@ -82,5 +91,45 @@ public class Literal extends Sentence implements Cloneable {
     @Override
     public String toString() {
         return id;
+    }
+
+    /**
+     * We don't deep copy literal. Thus we just return this object.
+     *
+     * @return This object (not a clone or copy).
+     */
+    @Override
+    public Sentence copy() {
+        return this;
+    }
+
+    /**
+     * This method does nothing but is needed because of the abstract super class.
+     * @param i
+     * @param arg
+     */
+    @Override
+    public void setArg(int i, Sentence arg) {
+        
+    }
+
+
+    /**
+     * Provides lexical comparison of the Literals id. If the object passed in is
+     * not a Sentence object (this should never happen) or is a Sentence object but
+     * not a literal than we always return -1 indicated that this object is less than
+     * the one being compared to.
+     *
+     * @param o This should be a Sentence object and ideally a Literal
+     * @return -1 if object is not a literal; Otherwise return the lexical ording of the id's.
+     */
+    public int compareTo(Object o) {
+        if(o instanceof Literal)
+        {
+            Literal lit = (Literal) o;
+            return id.compareTo(lit.getId());
+        }
+        else
+            return -1;
     }
 }

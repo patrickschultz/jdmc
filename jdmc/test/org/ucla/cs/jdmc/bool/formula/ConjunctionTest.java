@@ -14,9 +14,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.ucla.cs.jdmc.bool.formula;
 
-package org.ucla.cs.jdmc.booleanformula;
-
+import org.ucla.cs.jdmc.bool.formula.Sentence;
+import org.ucla.cs.jdmc.bool.formula.Conjunction;
+import org.ucla.cs.jdmc.bool.formula.Literal;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,9 +30,9 @@ import static org.junit.Assert.*;
  *
  * @author Patrick Schultz <schultz.patrick@gmail.com>
  */
-public class DisjunctionTest {
+public class ConjunctionTest {
 
-    public DisjunctionTest() {
+    public ConjunctionTest() {
     }
 
     @BeforeClass
@@ -50,34 +52,35 @@ public class DisjunctionTest {
     }
 
     /**
-     * Test of getArgCount method, of class Disjunction.
+     * Test of getArgCount method, of class Conjunction.
      */
     @Test
     public void testGetArgCount() {
         System.out.println("getArgCount");
         Literal l = new Literal("a");
         Literal r = new Literal("b");
-        Disjunction instance = new Disjunction(l, r);
+        Conjunction instance = new Conjunction(l, r);
         int expResult = 2;
         int result = instance.getArgCount();
         assertEquals(expResult, result);
 
         Literal r2 = new Literal("c");
-        instance = new Disjunction(l, r, r2);
+        instance = new Conjunction(l, r, r2);
         expResult = 3;
         result = instance.getArgCount();
         assertEquals(expResult, result);
+
     }
 
     /**
-     * Test of getArg method, of class Disjunction.
+     * Test of getArg method, of class Conjunction.
      */
     @Test
     public void testGetArg() {
         System.out.println("getArg");
         Literal l = new Literal("a");
         Literal r = new Literal("b");
-        Disjunction instance = new Disjunction(l, r);
+        Conjunction instance = new Conjunction(l, r);
         Sentence expResult = l;
         Sentence result = instance.getArg(0);
         assertEquals(expResult, result);
@@ -87,21 +90,22 @@ public class DisjunctionTest {
         assertEquals(expResult, result);
 
         Literal r2 = new Literal("c");
-        instance = new Disjunction(l, r, r2);
+        instance = new Conjunction(l, r, r2);
         expResult = r2;
         result = instance.getArg(2);
         assertEquals(expResult, result);
+
     }
 
     /**
-     * Test of getValue method, of class Disjunction.
+     * Test of getValue method, of class Conjunction.
      */
     @Test
     public void testGetValue() {
-                System.out.println("getValue0");
+        System.out.println("getValue0");
         Literal l = new Literal("a");
         Literal r = new Literal("b");
-        Disjunction instance = new Disjunction(l, r);
+        Conjunction instance = new Conjunction(l, r);
         Boolean expResult = null;
         Boolean result = instance.getValue();
         assertEquals(expResult, result);
@@ -109,8 +113,8 @@ public class DisjunctionTest {
         System.out.println("getValue1");
         l = new Literal("a", true);
         r = new Literal("b", false);
-        instance = new Disjunction(l, r);
-        expResult = false;
+        instance = new Conjunction(l, r);
+        expResult = true;
         result = instance.getValue();
         assertEquals(expResult, result);
 
@@ -118,7 +122,7 @@ public class DisjunctionTest {
         l = new Literal("a", true);
         r = new Literal("b", true);
         Literal r2 = new Literal("c", true);
-        instance = new Disjunction(l, r, r2);
+        instance = new Conjunction(l, r, r2);
         expResult = true;
         result = instance.getValue();
         assertEquals(expResult, result);
@@ -127,7 +131,7 @@ public class DisjunctionTest {
         l = new Literal("a", false);
         r = new Literal("b", false);
         r2 = new Literal("c", false);
-        instance = new Disjunction(l, r, r2);
+        instance = new Conjunction(l, r, r2);
         expResult = false;
         result = instance.getValue();
         assertEquals(expResult, result);
@@ -136,7 +140,7 @@ public class DisjunctionTest {
         l = new Literal("a", true);
         r = new Literal("b", true);
         r2 = new Literal("c");
-        instance = new Disjunction(l, r, r2);
+        instance = new Conjunction(l, r, r2);
         expResult = null;
         result = instance.getValue();
         assertEquals(expResult, result);
@@ -145,24 +149,36 @@ public class DisjunctionTest {
         l = new Literal("a", false);
         r = new Literal("b", true);
         r2 = new Literal("c", false);
-        instance = new Disjunction(l, r, r2);
-        expResult = false;
+        instance = new Conjunction(l, r, r2);
+        expResult = true;
         result = instance.getValue();
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of toString method, of class Disjunction.
+     * Test of toString method, of class Conjunction.
      */
     @Test
     public void testToString() {
         System.out.println("toString");
         Literal l = new Literal("a");
         Literal r = new Literal("b");
-        Disjunction instance = new Disjunction(l, r);
-        String expResult = "a ^ b";
+        Conjunction instance = new Conjunction(l, r);
+        String expResult = "a v b";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of copy method, of class Conjunction.
+     */
+    @Test
+    public void testCopy() {
+        System.out.println("copy");
+        Literal l = new Literal("a");
+        Literal r = new Literal("b");
+        Conjunction instance = new Conjunction(l, r);
+        Sentence result = instance.copy();
+        assertEquals(instance, result);
+    }
 }

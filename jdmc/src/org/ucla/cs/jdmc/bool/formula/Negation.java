@@ -14,33 +14,65 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.ucla.cs.jdmc.booleanformula;
+package org.ucla.cs.jdmc.bool.formula;
 
 /**
+ * Class represent negation operation. This is a simple class that maintains a single
+ * sentence object that will be negated.
  *
  * @author Patrick Schultz <schultz.patrick@gmail.com>
  */
-public class UniversalQuantifier extends Sentence{
+public class Negation extends Sentence {
+
+    Sentence left;      // There is only one sentence object because negation is a unary operation.
+
+    /**
+     * Default constructor.
+     * @param s The sentence to be negated.
+     */
+    public Negation(Sentence s) {
+        left = s;
+    }
+
 
     @Override
     public int getArgCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return 1;
     }
 
     @Override
     public Sentence getArg(int i) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return left;
     }
 
     @Override
     public Boolean getValue() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Boolean l = left.getValue();
+        if (l == null) {
+            return null;
+        }
+
+        return new Boolean(!l.booleanValue());
     }
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (left instanceof Literal) {
+            return "~" + left.toString();
+        } else {
+            return "~(" + left.toString() + ")";
+        }
     }
 
+    @Override
+    public Sentence copy() {
+        Sentence l = left.copy();
+        return new Negation(l);
+    }
+
+    @Override
+    public void setArg(int i, Sentence s) {
+        if(i == 0)
+            left = s;
+    }
 }

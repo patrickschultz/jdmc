@@ -49,7 +49,7 @@ public class SimpleBool2Cnf {
             System.out.println(sentence + " [applied distributivity]");
         }
 
-        //sentence = sort(sentence);
+        sentence = sort(sentence);
 
 
         return sentence;
@@ -145,76 +145,77 @@ public class SimpleBool2Cnf {
         return s;
     }
 
-    // sorts all operators according to their literals; literals are sorted
-    // alphabetically and then operators are sorted according to their
-    // left most literal(s)
-    //    protected static Sentence sort(Sentence s) {
-    //        if (s instanceof Disjunction) {
-    //            for (int i = 0; i < s.getArgCount(); i++) {
-    //                s.setArg(i, sort(s.getArg(i)));
-    //            }
-    //
-    //            for (int i = 0; i < s.getArgCount() - 1; i++) {
-    //                int min = i;
-    //                for (int j = i + 1; j < s.getArgCount(); j++) {
-    //                    Sentence a = s.getArg(min);
-    //                    Sentence b = s.getArg(j);
-    //
-    //                    boolean found = false;
-    //                    boolean equal = true;
-    //                    for (int k = 0; k < Math.min(a.getArgCount(), b.getArgCount()); k++) {
-    //                        Sentence aK = a.getArg(k);
-    //                        Sentence bK = b.getArg(k);
-    //                        Literal symA = aK instanceof Literal ? (Literal) aK : (Literal) aK.getArg(0);
-    //                        Literal symB = bK instanceof Literal ? (Literal) bK : (Literal) bK.getArg(0);
-    //
-    //                        if (symA.toString().compareTo(symB.toString()) > 0) {
-    //                            min = j;
-    //
-    //                            found = true;
-    //                            equal = false;
-    //                            break;
-    //                        } else if (symA.toString().compareTo(symB.toString()) < 0) {
-    //                            equal = false;
-    //                            break;
-    //                        }
-    //                    }
-    //
-    //                    if (!found && a.getArgCount() > b.getArgCount()) {
-    //                        min = j;
-    //                    } else if (equal && a.getArgCount() == b.getArgCount()) {
-    //                        //s.setArg(j, null);
-    //                        //j--;
-    //                    }
-    //                }
-    //
-    //                if (i != min) {
-    //                    Sentence temp = s.getArg(i);
-    //                    s.setArg(i, s.getArg(min));
-    //                    s.setArg(min, temp);
-    //                }
-    //            }
-    //        } else if (s instanceof Conjunction) {
-    //            for (int i = 0; i < s.getArgCount() - 1; i++) {
-    //                for (int j = i + 1; j < s.getArgCount(); j++) {
-    //                    Sentence a = s.getArg(i);
-    //                    Sentence b = s.getArg(j);
-    //                    Literal symA = a instanceof Literal ? (Literal) a : (Literal) a.getArg(0);
-    //                    Literal symB = b instanceof Literal ? (Literal) b : (Literal) b.getArg(0);
-    //
-    //                    if (symA.toString().compareTo(symB.toString()) > 0) {
-    //                        s.setArg(i, b);
-    //                        s.setArg(j, a);
-    //                    } else if (symA.toString().compareTo(symB.toString()) == 0) {
-    //                        //s.setArg(j, null);
-    //                        //j--;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //
-    //        return s;
-    //
+//     sorts all operators according to their literals; literals are sorted
+//     alphabetically and then operators are sorted according to their
+//     left most literal(s)
+        protected static Sentence sort(Sentence s) {
+            if (s instanceof Disjunction) {
+                for (int i = 0; i < s.getArgCount(); i++) {
+                    s.setArg(i, sort(s.getArg(i)));
+                }
+    
+                for (int i = 0; i < s.getArgCount() - 1; i++) {
+                    int min = i;
+                    for (int j = i + 1; j < s.getArgCount(); j++) {
+                        Sentence a = s.getArg(min);
+                        Sentence b = s.getArg(j);
+    
+                        boolean found = false;
+                        boolean equal = true;
+                        for (int k = 0; k < Math.min(a.getArgCount(), b.getArgCount()); k++) {
+                            Sentence aK = a.getArg(k);
+                            Sentence bK = b.getArg(k);
+                            Literal symA = aK instanceof Literal ? (Literal) aK : (Literal) aK.getArg(0);
+                            Literal symB = bK instanceof Literal ? (Literal) bK : (Literal) bK.getArg(0);
+    
+                            if (symA.toString().compareTo(symB.toString()) > 0) {
+                                min = j;
+    
+                                found = true;
+                                equal = false;
+                                break;
+                            } else if (symA.toString().compareTo(symB.toString()) < 0) {
+                                equal = false;
+                                break;
+                            }
+                        }
+    
+                        if (!found && a.getArgCount() > b.getArgCount()) {
+                            min = j;
+                        } else if (equal && a.getArgCount() == b.getArgCount()) {
+                            //s.setArg(j, null);
+                            //j--;
+                        }
+                    }
+    
+                    if (i != min) {
+                        Sentence temp = s.getArg(i);
+                        s.setArg(i, s.getArg(min));
+                        s.setArg(min, temp);
+                    }
+                }
+            } else if (s instanceof Conjunction) {
+                for (int i = 0; i < s.getArgCount() - 1; i++) {
+                    for (int j = i + 1; j < s.getArgCount(); j++) {
+                        Sentence a = s.getArg(i);
+                        Sentence b = s.getArg(j);
+                        Literal symA = a instanceof Literal ? (Literal) a : (Literal) a.getArg(0);
+                        Literal symB = b instanceof Literal ? (Literal) b : (Literal) b.getArg(0);
+    
+                        if (symA.toString().compareTo(symB.toString()) > 0) {
+                            s.setArg(i, b);
+                            s.setArg(j, a);
+                        } else if (symA.toString().compareTo(symB.toString()) == 0) {
+                            //s.setArg(j, null);
+                            //j--;
+                        }
+                    }
+                }
+            }
+    
+            return s;
+     }
+
     private static Sentence applyDeMorgansRecursive(Sentence sentence) {
         sentence = applyDeMorgans(sentence);
 

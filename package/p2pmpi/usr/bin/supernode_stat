@@ -1,4 +1,4 @@
 #!/bin/bash
-export P2PMPI_HOME=/opt/p2pmpi
+export P2PMPI_HOME=/opt/jdmc/p2pmpi
 export PATH=$PATH:$P2PMPI_HOME/bin
-/opt/p2pmpi/bin/supernode_stat $@
+/opt/jdmc/p2pmpi/bin/supernode_stat $@

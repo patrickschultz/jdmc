@@ -167,6 +167,58 @@ public class SimpleBool2CnfTest {
 
     @After
     public void tearDown() {
+        a = null;
+        b = null;
+        c = null;
+        d = null;
+        e = null;
+        f = null;
+        g = null;
+        h = null;
+        aNot = null;
+        bNot = null;
+        cNot = null;
+        dNot = null;
+        eNot = null;
+        fNot = null;
+        gNot = null;
+        hNot = null;
+        aOrb = null;
+        aOrc = null;
+        aOrd = null;
+        aOre = null;
+        aOrf = null;
+        aOrg = null;
+        aOrh = null;
+        bOrc = null;
+        bOrd = null;
+        bOre = null;
+        bOrf = null;
+        bOrg = null;
+        bOrh = null;
+        cOrd = null;
+        cOre = null;
+        cOrf = null;
+        cOrg = null;
+        cOrh = null;
+        aAndb = null;
+        aAndc = null;
+        aAndd = null;
+        aAnde = null;
+        aAndf = null;
+        aAndg = null;
+        aAndh = null;
+        bAndc = null;
+        bAndd = null;
+        bAnde = null;
+        bAndf = null;
+        bAndg = null;
+        bAndh = null;
+        cAndd = null;
+        cAnde = null;
+        cAndf = null;
+        cAndg = null;
+        cAndh = null;
     }
 
     /**

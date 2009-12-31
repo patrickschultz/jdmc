@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>jdmc</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>org.sat4j.core-src</name>
+			<type>2</type>
+			<location>/home/patrick/Documents/UCLA/Comp_Exam/sat4j-core-v20090826/org.sat4j.core-src</location>
+		</link>
+	</linkedResources>
+</projectDescription>

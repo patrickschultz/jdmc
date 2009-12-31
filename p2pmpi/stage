@@ -2,7 +2,7 @@
 
 STAGE_DIR=${1:-../debian}
 
-APP_DIR=opt/p2pmpi
+APP_DIR=opt/jdmc/p2pmpi
 
 mkdir -p $STAGE_DIR/$APP_DIR
 find -not -path "*stage*" -print0 | cpio --null -pmdL $STAGE_DIR/$APP_DIR

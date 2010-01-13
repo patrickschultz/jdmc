@@ -31,6 +31,7 @@ set -e
 ##################################################################
 # Global Variables
 ##################################################################
+SUPERNODEVAL=invalid
 SUPERNODE_PORT=9700
 
 
@@ -38,6 +39,43 @@ SUPERNODE_PORT=9700
 # Functions
 ##################################################################
 
+##
+# Sets variable IP to the first ip found in ifconfig
+#
+get_ip()
+{
+	OS=`uname`
+	case $OS in
+	   	Linux) IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`;;
+	   	FreeBSD|OpenBSD) IP=`ifconfig  | grep -E 'inet.[0-9]' | grep -v '127.0.0.1' | awk '{ print $2}'` ;;
+	   	SunOS) IP=`ifconfig -a | grep inet | grep -v '127.0.0.1' | awk '{ print $2} '` ;;
+		*) IP="Unknown";;
+	esac
+}
+
+# Test an IP address for validity:
+# Usage:
+#      valid_ip IP_ADDRESS
+#      if [[ $? -eq 0 ]]; then echo good; else echo bad; fi
+#   OR
+#      if valid_ip IP_ADDRESS; then echo good; else echo bad; fi
+#
+function valid_ip()
+{
+    local  ip=$1
+    local  stat=1
+
+    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        OIFS=$IFS
+        IFS='.'
+        ip=($ip)
+        IFS=$OIFS
+        [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
+            && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+        stat=$?
+    fi
+    return $stat
+}
 
 ##################################################################
 # Main
@@ -45,23 +83,31 @@ SUPERNODE_PORT=9700
 
 echo -n "Would you like to configure JDMC now? [y]/n "
 read -n 1 response
-[ ! $response == "y" ] && [ ! $response == "Y" ] && echo && exit 0
+echo
+[ ! $response == "y" ] && [ ! $response == "Y" ] && exit 0
 
 # Guess the ip of the user
-myip=`ifconfig | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'`
-
-echo "Please input ip address or host name of the super node. "
-echo -n "If this host is the supernode, then use its ip [$myip]: "
-read response
-if [ "$response" == "" ]; then
-    SUPERNODEVAL=$myip
-else
-    SUPERNODEVAL=$response
+if [ ! -n "${IP+x}" ]; then
+	get_ip
 fi
 
-echo "Please enter the supernode port number "
+echo "Please input ip address or host name of the super node. "
+echo -n "If this host is the supernode, then use its ip [$IP]: "
 
-echo -n "if you wish to use a non-default value [$SUPERNODE_PORT]: "
+while ! valid_ip $SUPERNODEVAL; do
+	read response
+	if [ "$response" == "" ]; then
+		SUPERNODEVAL=$IP
+	elif valid_ip $SUPERNODEVAL; then
+		SUPERNODEVAL=$response
+	else
+		echo -n "Invalid IP address. Please reenter [$IP]: "
+	fi
+done
+
+echo "Please enter the supernode port number if "
+
+echo -n "you wish to use a non-default value [$SUPERNODE_PORT]: "
 read response
 
 #Filter out anything but a number

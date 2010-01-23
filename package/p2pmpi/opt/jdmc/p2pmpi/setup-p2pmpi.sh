@@ -34,7 +34,9 @@ set -e
 SUPERNODEVAL=invalid
 SUPERNODE_PORT=9700
 
-
+SHARED_P2PMPI=/usr/share/p2pmpi
+UPSTART_DIR=/usr/init
+UPSTART_SCRIPT_NAME=p2pmpi.conf
 ##################################################################
 # Functions
 ##################################################################
@@ -92,18 +94,30 @@ if [ ! -n "${IP+x}" ]; then
 fi
 
 echo "Please input ip address or host name of the super node. "
-echo -n "If this host is the supernode, then use its ip [$IP]: "
+echo -n "If this host is the supernode, then use its ip [$IP] or hostname: "
 
-while ! valid_ip $SUPERNODEVAL; do
-	read response
-	if [ "$response" == "" ]; then
-		SUPERNODEVAL=$IP
-	elif valid_ip $SUPERNODEVAL; then
-		SUPERNODEVAL=$response
-	else
-		echo -n "Invalid IP address. Please reenter [$IP]: "
+read response
+if [ "$response" == "" ]; then
+	SUPERNODEVAL=$IP
+else
+	SUPERNODEVAL=$response
+fi
+
+if valid_ip $SUPERNODEVAL; then
+	if [ $IP == $SUPERNODEVAL ]; then
+		cp $SHARED_P2PMPI/p2pmpi-supernode.conf $UPSTART_DIR/$UPSTART_SCRIPT_NAME
+			break
 	fi
-done
+else 
+	for i in `nslookup $SUPERNODEVAL | grep Add | grep -v '#' | cut -f 2 -d ' '`; do
+		if [ $i == $IP ]; then
+			cp $SHARED_P2PMPI/p2pmpi-supernode.conf $UPSTART_DIR/$UPSTART_SCRIPT_NAME
+			break;
+		fi
+	done
+fi
+
+[ -f $UPSTART_DIR/$UPSTART_SCRIPT_NAME ] || cp $SHARED_P2PMPI/p2pmpi.conf  $UPSTART_DIR/$UPSTART_SCRIPT_NAME ;
 
 echo "Please enter the supernode port number if "
 

@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Provides class or existential quantification.
+ * Provides class for existential quantification.
  *
  * @author Patrick Schultz <schultz.patrick@gmail.com>
  */
@@ -31,7 +31,7 @@ public class ExistentialQuantifier extends Sentence {
     ArrayList<Literal> literals;    // The literals to quantify.
 
     /**
-     * Default contructor. Takes int the literals to quantify and the sentence
+     * Default constructor. Takes in the literals to quantify and the sentence
      * to quantify over.
      */
     public ExistentialQuantifier(Sentence s, ArrayList<Literal> lits) {

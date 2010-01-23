@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 /**
  * Represent universal quantification in boolean formulas. It has two parts: the
- * variables which are being quantifie and the sentance over which they are quantified.
+ * variables which are being quantified and the sentence over which they are quantified.
  *
  * @author Patrick Schultz <schultz.patrick@gmail.com>
  */

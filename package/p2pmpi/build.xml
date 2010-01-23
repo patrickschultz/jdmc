@@ -50,6 +50,11 @@
             <arg value="usr"/>
             <arg value="${STAGE_DIR}"/>
         </exec>
+        <exec executable="cp" osfamily="unix" newenvironment="false" dir=".">
+            <arg value="-r"/>
+            <arg value="opt"/>
+            <arg value="${STAGE_DIR}"/>
+        </exec>
         <exec osfamily="unix" executable="bash" newenvironment="false" dir="${PROGRAM_DIR}">
             <arg value="stage"/>
         </exec>

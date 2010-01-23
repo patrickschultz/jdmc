@@ -62,8 +62,7 @@ public class CnfSat4jSolver  {
 
         ISolver solver = configureSolver();
 
-        // Feed the solver using Dimacs format, using arrays of int
-        // (best option to avoid dependencies on SAT4J IVecInt)
+        // Feed the solver using Dimacs format
         for (int i = 0; i < s.getArgCount(); i++) {
             processArgs(s.getArg(i));
             if (!literals.isEmpty()) {
